@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>DAKD JARVIS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="hud-container">
+
+    <!-- Top Status Bar -->
+    <header class="hud-header">
+      <div class="hud-brand">
+        <div class="status-indicator">
+          <span class="pulsing-dot" id="system-led"></span>
+          <span class="status-text" id="status-label">ONLINE</span>
+        </div>
+        <div class="hud-title">DAKD JARVIS</div>
+      </div>
+      <div class="hud-actions">
+        <button class="hud-icon-btn" id="btn-torch-toggle" title="Toggle Torch" aria-label="Toggle Torch">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M6 2h12v3l-3 4v13H9V9L6 5V2zm2 2v.5l3 4v11.5h2V8.5l3-4V4H8z"/>
+          </svg>
+        </button>
+        <button class="hud-icon-btn" id="btn-sound-toggle" title="Toggle Sound" aria-label="Toggle Sound">
+          <svg id="icon-sound-on" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+          </svg>
+        </button>
+        <button class="hud-icon-btn" id="btn-open-apps" title="Installed Apps" aria-label="Installed Apps">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/>
+          </svg>
+        </button>
+        <button class="hud-icon-btn" id="btn-open-settings" title="Settings" aria-label="Settings">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main JARVIS Core Display -->
+    <main class="hud-main">
+      <div class="jarvis-core-wrapper" id="core-wrapper">
+        <div class="ring outer-ring"></div>
+        <div class="ring tick-ring"></div>
+        <div class="ring middle-ring"></div>
+        <div class="ring inner-segmented-ring"></div>
+        <div class="ring wave-ring" id="wave-ring"></div>
+        <div class="core-center" id="core-center">
+          <div class="core-letter">J</div>
+          <div class="core-glow"></div>
+        </div>
+      </div>
+
+      <div class="core-label-container">
+        <h1 class="core-title">DAKD JARVIS</h1>
+        <div class="core-subtitle" id="core-status-text">INITIALIZING QUANTUM SYSTEMS...</div>
+      </div>
+
+      <!-- Quick Action Cards Carousel -->
+      <div class="quick-actions-bar">
+        <button class="quick-btn" data-action="whatsapp">
+          <span class="qb-icon">💬</span>
+          <span class="qb-label">WhatsApp</span>
+        </button>
+        <button class="quick-btn" data-action="instagram">
+          <span class="qb-icon">📷</span>
+          <span class="qb-label">Instagram</span>
+        </button>
+        <button class="quick-btn" data-action="facebook">
+          <span class="qb-icon">🌐</span>
+          <span class="qb-label">Facebook</span>
+        </button>
+        <button class="quick-btn" data-action="camera">
+          <span class="qb-icon">📸</span>
+          <span class="qb-label">Camera</span>
+        </button>
+        <button class="quick-btn" data-action="call">
+          <span class="qb-icon">📞</span>
+          <span class="qb-label">Call</span>
+        </button>
+        <button class="quick-btn" data-action="torch">
+          <span class="qb-icon">🔦</span>
+          <span class="qb-label">Torch</span>
+        </button>
+        <button class="quick-btn" data-action="browser">
+          <span class="qb-icon">🌍</span>
+          <span class="qb-label">Chrome</span>
+        </button>
+        <button class="quick-btn" data-action="settings">
+          <span class="qb-icon">⚙️</span>
+          <span class="qb-label">Settings</span>
+        </button>
+      </div>
+
+      <!-- Conversation Stream -->
+      <div class="conversation-panel" id="conversation-panel">
+        <div class="chat-bubble jarvis-bubble" id="welcome-bubble">
+          <div class="bubble-header">
+            <span class="bubble-sender">DAKD JARVIS</span>
+            <span class="bubble-time" id="welcome-time">12:00</span>
+          </div>
+          <div class="bubble-text" id="welcome-text">
+            Good Evening Sir. DAKD JARVIS online. How may I assist you?
+          </div>
+        </div>
+      </div>
+
+      <!-- User Confirmation Toast/Card (Modal Action) -->
+      <div class="confirmation-card" id="confirmation-card" style="display: none;">
+        <div class="confirm-header">
+          <span class="confirm-alert-icon">⚠️</span>
+          <span class="confirm-title">Security Authorization Required</span>
+        </div>
+        <div class="confirm-message" id="confirm-message">
+          Danish ko call karne ki permission hai?
+        </div>
+        <div class="confirm-actions">
+          <button class="btn-action btn-cancel" id="btn-confirm-cancel">Cancel</button>
+          <button class="btn-action btn-authorize" id="btn-confirm-ok">Confirm & Execute</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Input & Microphone Controls -->
+    <footer class="hud-footer">
+      <!-- Hands-Free Voice Status Bar -->
+      <div class="handsfree-status-bar" id="handsfree-status-bar">
+        <div class="hf-indicator-dot pulsing" id="hf-indicator-dot"></div>
+        <span class="hf-label" id="hf-label">🎙️ Hands-Free: <b>ACTIVE</b> (Bina touch kare bole)</span>
+        <button type="button" class="hf-btn-toggle" id="hf-btn-toggle" title="Toggle hands-free listening">Pause</button>
+      </div>
+
+      <div class="mic-container">
+        <button class="mic-button" id="mic-button" aria-label="Activate Voice Command">
+          <div class="mic-pulse-ring"></div>
+          <div class="mic-pulse-ring secondary"></div>
+          <svg class="mic-icon" viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+          </svg>
+        </button>
+        <span class="mic-hint" id="mic-hint">🎙️ Listening continuously... Speak command anytime!</span>
+      </div>
+
+      <div class="command-input-row">
+        <input type="text" id="command-input" class="command-input" placeholder="Type command... 'WhatsApp kholo' / 'Camera open karo'" autocomplete="off">
+        <button class="send-button" id="send-button" aria-label="Send Command">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </button>
+      </div>
+    </footer>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settings-modal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>DAKD JARVIS Settings</h2>
+          <button class="modal-close-btn" id="close-settings">&times;</button>
+        </div>
+        <div class="modal-body">
+
+          <!-- Section: AI Provider -->
+          <div class="settings-section">
+            <h3 class="section-title">🧠 AI Engine Architecture</h3>
+            <div class="form-group">
+              <label for="setting-ai-provider">Active AI Provider</label>
+              <select id="setting-ai-provider" class="form-select">
+                <option value="GEMINI">Google Gemini API (Default)</option>
+                <option value="OPENAI">OpenAI Compatible API</option>
+                <option value="CLAUDE">Claude Compatible API</option>
+                <option value="CUSTOM">Custom REST Backend / Local AI</option>
+                <option value="OFFLINE">Offline Rule Engine (No Internet Required)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="setting-ai-model">Model Name</label>
+              <input type="text" id="setting-ai-model" class="form-input" placeholder="gemini-3.5-flash">
+            </div>
+            <div class="form-group">
+              <label for="setting-ai-endpoint">Custom Endpoint (Optional)</label>
+              <input type="text" id="setting-ai-endpoint" class="form-input" placeholder="https://api.openai.com/v1/chat/completions">
+            </div>
+            <div class="form-group">
+              <label for="setting-custom-key">Gemini / AI API Key</label>
+              <div style="display: flex; gap: 6px;">
+                <input type="password" id="setting-custom-key" class="form-input" placeholder="Enter Gemini API Key (AIzaSy...)" style="flex: 1;">
+                <button type="button" id="btn-toggle-key-view" class="btn-sm" style="padding: 0 10px; min-height: 44px;">👁️</button>
+              </div>
+              <small class="form-hint" style="color: var(--cyan-neon); display: block; margin-top: 4px;">
+                💡 <b>API Key Help:</b> Agar error <i>"Project denied access (403)"</i> aaye, to Google AI Studio me new project select karke fresh API key banayein: <u>aistudio.google.com/app/apikey</u>
+              </small>
+              <div style="margin-top: 10px;">
+                <button type="button" id="btn-test-api" class="btn-sm" style="width: 100%; min-height: 38px; background: rgba(0,240,255,0.15); border: 1px solid var(--cyan-neon); color: #fff;">⚡ Test API Connection (Check Key)</button>
+              </div>
+              <div id="api-test-result" class="api-test-box" style="display: none;"></div>
+            </div>
+          </div>
+
+          <!-- Section: Confirmation Mode -->
+          <div class="settings-section">
+            <h3 class="section-title">🛡️ Security Confirmation Mode</h3>
+            <div class="form-group">
+              <label for="setting-confirm-mode">Confirmation Level</label>
+              <select id="setting-confirm-mode" class="form-select">
+                <option value="BALANCED">BALANCED MODE (Ask before Calls & WhatsApp messages)</option>
+                <option value="SAFE">SAFE MODE (Always ask confirmation before all actions)</option>
+                <option value="PERSONAL">PERSONAL MODE (Custom relaxed confirmations)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Section: Personal Profile -->
+          <div class="settings-section">
+            <h3 class="section-title">👤 Personal Profile</h3>
+            <div class="form-group">
+              <label for="setting-user-name">User Name</label>
+              <input type="text" id="setting-user-name" class="form-input" value="Danish">
+            </div>
+            <div class="form-group">
+              <label for="setting-assistant-name">Assistant Name</label>
+              <input type="text" id="setting-assistant-name" class="form-input" value="DAKD JARVIS">
+            </div>
+            <div class="form-group">
+              <label for="setting-pref-lang">Preferred Language</label>
+              <select id="setting-pref-lang" class="form-select">
+                <option value="Hindi / Roman Hindi / English">Hindi / Roman Hindi / English</option>
+                <option value="Hindi">Pure Hindi</option>
+                <option value="English">English</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="setting-response-style">Response Style</label>
+              <select id="setting-response-style" class="form-select">
+                <option value="Normal">Normal</option>
+                <option value="Short">Short & Crisp</option>
+                <option value="Detailed">Detailed</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Section: Voice & Speech & Wake Word -->
+          <div class="settings-section">
+            <h3 class="section-title">🔊 Wake Word & Hands-Free ("Ok Jaan")</h3>
+            <div class="form-row toggle-row">
+              <span>Hands-Free Auto Listen (Bina touch kare)</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="setting-hands-free-enable" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="form-row toggle-row" style="margin-top: 10px;">
+              <span>Wake Word Voice Trigger</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="setting-wake-word-enable" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="form-group" style="margin-top: 10px;">
+              <label for="setting-wake-phrase">Wake Phrase (e.g. "Ok Jaan" or "Hey Jarvis")</label>
+              <input type="text" id="setting-wake-phrase" class="form-input" value="Ok Jaan">
+            </div>
+            <div class="form-row toggle-row" style="margin-top: 10px;">
+              <span>Speech Voice Output (TTS)</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="setting-tts-enable" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="form-group" style="margin-top: 10px;">
+              <label for="setting-tts-speed">Speech Rate: <span id="tts-speed-val">1.0x</span></label>
+              <input type="range" id="setting-tts-speed" min="0.5" max="2.0" step="0.1" value="1.0" class="form-slider">
+            </div>
+          </div>
+
+          <!-- Section: Android System Permissions & Accessibility -->
+          <div class="settings-section">
+            <h3 class="section-title">📱 Android Permissions & Accessibility</h3>
+            <div class="permission-item">
+              <div class="pi-info">
+                <strong>Accessibility Service</strong>
+                <span id="perm-acc-status" class="perm-badge red">Disabled</span>
+              </div>
+              <button class="btn-sm" id="btn-req-acc">Enable in Settings</button>
+            </div>
+            <div class="permission-item">
+              <div class="pi-info">
+                <strong>Microphone (Voice Recognition)</strong>
+                <span id="perm-mic-status" class="perm-badge">Checking</span>
+              </div>
+              <button class="btn-sm" id="btn-req-mic">Request</button>
+            </div>
+            <div class="permission-item">
+              <div class="pi-info">
+                <strong>Phone Calls</strong>
+                <span id="perm-call-status" class="perm-badge">Checking</span>
+              </div>
+              <button class="btn-sm" id="btn-req-call">Request</button>
+            </div>
+            <div class="permission-item">
+              <div class="pi-info">
+                <strong>Contacts (For Call & WhatsApp)</strong>
+                <span id="perm-contacts-status" class="perm-badge">Checking</span>
+              </div>
+              <button class="btn-sm" id="btn-req-contacts">Request</button>
+            </div>
+            <div class="permission-item">
+              <div class="pi-info">
+                <strong>Foreground Service Notification</strong>
+                <span id="perm-fg-status" class="perm-badge green">Active</span>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="setting-fg-notif" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Section: Privacy & Data -->
+          <div class="settings-section">
+            <h3 class="section-title">🔒 Privacy & Command Memory</h3>
+            <p class="privacy-note">All your commands and profile remain locally encrypted on this device. No hidden recording.</p>
+            <div class="btn-group-row">
+              <button class="btn-action btn-outline" id="btn-clear-history">Clear History</button>
+              <button class="btn-action btn-danger" id="btn-delete-all">Delete All Data</button>
+            </div>
+          </div>
+
+          <div class="modal-footer-save">
+            <button class="btn-action btn-authorize full-width" id="btn-save-settings">Save Settings</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Installed Apps Modal -->
+    <div class="modal-overlay" id="apps-modal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Installed Phone Apps</h2>
+          <button class="modal-close-btn" id="close-apps">&times;</button>
+        </div>
+        <div class="modal-body">
+          <input type="text" id="app-search-input" class="form-input" placeholder="Search installed apps...">
+          <div class="apps-grid" id="apps-grid-container">
+            <div class="loading-text">Loading installed apps...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="storage.js"></script>
+  <script src="ai.js"></script>
+  <script src="voice.js"></script>
+  <script src="commands.js"></script>
+  <script src="ui.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

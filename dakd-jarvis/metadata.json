@@ -1,0 +1,6 @@
+{
+  "name": "DAKD JARVIS",
+  "description": "Personal AI Android Assistant with voice command execution, multi-AI engine, and device automation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">DAKD JARVIS</string>
+    <string name="accessibility_service_description">DAKD JARVIS uses this service to assist you by interacting with on-screen controls, opening requested buttons, and reading text when explicitly commanded by you.</string>
+</resources>
