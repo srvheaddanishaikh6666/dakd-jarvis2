@@ -1,0 +1,93 @@
+name: Build APK
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Find and Fix Project
+        run: |
+          echo "=== Listing all files ==="
+          ls -la
+          echo "=== Finding gradle files ==="
+          find . -maxdepth 4 -type f \( -name "settings.gradle" -o -name "settings.gradle.kts" -o -name "build.gradle" -o -name "build.gradle.kts" \) | sort
+          echo "=== Finding gradlew ==="
+          find . -name "gradlew" -type f
+
+          # Find the real project root (where settings.gradle is)
+          PROJECT_DIR=$(find . -name "settings.gradle" -o -name "settings.gradle.kts" | head -1 | xargs dirname 2>/dev/null)
+          if [ -z "$PROJECT_DIR" ]; then
+            PROJECT_DIR=$(find . -name "build.gradle" | head -1 | xargs dirname 2>/dev/null)
+          fi
+          if [ -z "$PROJECT_DIR" ] || [ "$PROJECT_DIR" = "." ]; then
+            PROJECT_DIR="."
+          fi
+          echo "PROJECT_DIR=$PROJECT_DIR" >> $GITHUB_ENV
+          echo "Found project dir: $PROJECT_DIR"
+          ls -la "$PROJECT_DIR"
+
+          # Create keystore in project dir
+          mkdir -p ~/.android/
+          keytool -genkey -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US" 2>/dev/null || true
+          cp ~/.android/debug.keystore "$PROJECT_DIR/debug.keystore" 2>/dev/null || true
+          cp ~/.android/debug.keystore "$PROJECT_DIR/app/debug.keystore" 2>/dev/null || true
+          mkdir -p "$PROJECT_DIR/app"
+          cp ~/.android/debug.keystore "$PROJECT_DIR/app/debug.keystore" 2>/dev/null || true
+
+          # Fix env
+          echo "GEMINI_API_KEY=dummy_key_for_build" > "$PROJECT_DIR/.env"
+          echo "GEMINI_API_KEY=dummy_key_for_build" > "$PROJECT_DIR/.env.example"
+          echo "sdk.dir=$ANDROID_HOME" > "$PROJECT_DIR/local.properties"
+
+          # Patch AIConfig.kt if exists
+          AI_FILE=$(find "$PROJECT_DIR" -name "AIConfig.kt" 2>/dev/null | head -1)
+          if [ -f "$AI_FILE" ]; then
+            echo "Patching $AI_FILE"
+            sed -i 's/BuildConfig.GEMINI_API_KEY/"dummy_key_for_build"/g' "$AI_FILE" || true
+            sed -i 's/BuildConfig\.GEMINI_API_KEY/"dummy_key_for_build"/g' "$AI_FILE" || true
+          fi
+
+          # Also patch build.gradle for keystore if needed
+          echo "Checking build.gradle"
+          cat "$PROJECT_DIR/app/build.gradle" 2>/dev/null | grep -A2 -B2 keystore || true
+
+      - name: Build APK
+        run: |
+          echo "Building from $PROJECT_DIR"
+          cd "$PROJECT_DIR"
+          echo "Current dir: $(pwd)"
+          ls -la
+          
+          export GEMINI_API_KEY="dummy_key_for_build"
+          
+          if [ -f "./gradlew" ]; then
+            chmod +x ./gradlew
+            ./gradlew assembleDebug --stacktrace -P GEMINI_API_KEY=dummy_key_for_build
+          elif [ -f "../gradlew" ]; then
+            chmod +x ../gradlew
+            ../gradlew assembleDebug --stacktrace -P GEMINI_API_KEY=dummy_key_for_build
+          else
+            # No wrapper, use gradle directly - need to tell gradle where project is
+            gradle assembleDebug --stacktrace -P GEMINI_API_KEY=dummy_key_for_build
+          fi
+        env:
+          GEMINI_API_KEY: dummy_key_for_build
+
+      - name: Upload APK
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dakd-jarvis-apk
+          path: |
+            **/build/outputs/apk/debug/*.apk
+            **/app/build/outputs/apk/debug/*.apk
